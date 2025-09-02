@@ -30,6 +30,22 @@ Ban @ 8/27/2025, 11:22:37 PM OATS Duelanta [Flourish to Duel Pit FFA Discord oat
 
     python -m discord_log_crawler.ingest parse-file ./logs.txt
 
+## Paste-To-Me Bot (DM)
+
+Prefer a lightweight bot where users DM logs? Start the live bot which parses any message you DM it (and optionally specific channels):
+
+1) Configure environment (via real env vars or a `.env` file):
+
+   - `DISCORD_TOKEN`: your bot token (Message Content Intent must be enabled)
+   - `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_USER`, `MYSQL_PASSWORD`, `MYSQL_DATABASE`
+   - Optional `DISCORD_ALLOWED_CHANNEL_IDS`: comma-separated channel IDs to also accept messages from (besides DMs)
+
+2) Run the bot:
+
+       python -m discord_log_crawler.bot
+
+3) Users can now DM the bot and paste moderation logs directly. The bot replies with how many events were stored. Unknown lines are ignored.
+
 ## Test-Driven Development
 
 - Local (Python installed):

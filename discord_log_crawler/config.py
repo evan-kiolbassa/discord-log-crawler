@@ -54,6 +54,7 @@ class DiscordConfig:
     """
     token: str | None
     default_channel_id: int | None
+    allowed_channel_ids: list[int]
 
 
 @dataclass
@@ -95,19 +96,29 @@ def load_config() -> AppConfig:
     # Load .env if present
     load_dotenv()
 
+    db_password = os.getenv("MYSQL_PASSWORD") or os.getenv("MYSQL_ROOT_PASSWORD", "")
     db = DBConfig(
         host=os.getenv("MYSQL_HOST", "127.0.0.1"),
         port=int(os.getenv("MYSQL_PORT", "3306")),
         user=os.getenv("MYSQL_USER", "root"),
-        password=os.getenv("MYSQL_PASSWORD", ""),
+        password=db_password,
         database=os.getenv("MYSQL_DATABASE", "discord_logs"),
     )
 
     token = os.getenv("DISCORD_TOKEN")
     channel_env = os.getenv("DISCORD_CHANNEL_ID")
+    allowed_env = os.getenv("DISCORD_ALLOWED_CHANNEL_IDS", "")
+    allowed_list = []
+    if allowed_env.strip():
+        for part in allowed_env.split(","):
+            part = part.strip()
+            if part.isdigit():
+                allowed_list.append(int(part))
+
     discord = DiscordConfig(
         token=token,
         default_channel_id=int(channel_env) if channel_env and channel_env.isdigit() else None,
+        allowed_channel_ids=allowed_list,
     )
 
     enable_fuzzy = os.getenv("ENABLE_FUZZY_USERNAME_MATCH", "false").lower() in {"1", "true", "yes"}

@@ -2,8 +2,10 @@
 
 This package provides utilities to parse manually posted moderation
 logs from Discord messages and to persist the structured events into
-MySQL. It also offers a simple CLI to fetch messages from a channel
-using a bot and ingest them.
+MySQL. It offers:
+
+- A CLI to fetch history or parse files (``discord_log_crawler.ingest``)
+- A live bot you can DM to paste logs (``discord_log_crawler.bot``)
 
 Notes
 -----
