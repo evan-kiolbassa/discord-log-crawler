@@ -1,4 +1,3 @@
-import os
 import time
 from typing import Iterator
 
@@ -46,4 +45,3 @@ def db_conn() -> Iterator[pymysql.connections.Connection]:
                 cur.execute(f"TRUNCATE TABLE {tbl}")
             cur.execute("SET FOREIGN_KEY_CHECKS=1")
         conn.close()
-
